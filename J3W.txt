@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juárez 3D Web · Laboratorio de Innovación Digital</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fafafa;
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+      line-height: 1.618; /* proporción áurea */
+      color: #111;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.03), 0 0 0 1px rgba(0,0,0,0.02);
+      overflow: hidden;
+    }
+
+    .inner {
+      padding: 2.5rem 2rem;
+    }
+
+    /* Header con logo */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-watermark {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: rgba(0,0,0,0.25);
+      background: transparent;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+
+    .logo-watermark:hover {
+      border-color: rgba(0,0,0,0.2);
+      color: rgba(0,0,0,0.35);
+      transform: scale(1.01);
+    }
+
+    .titulo {
+      font-size: 3rem;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .lema {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #444;
+      border-left: 2px solid #aaa;
+      padding-left: 1.2rem;
+      margin: 1rem 0 1rem 0;
+    }
+
+    .separador {
+      width: 64px;
+      height: 1px;
+      background: #ccc;
+      margin: 1.5rem 0 2rem 0;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+    section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .texto p {
+      margin-bottom: 1.2rem;
+    }
+
+    /* Grid servicios */
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .servicio-card {
+      background: #fff;
+      border: 1px solid #eaeef2;
+      border-radius: 1.2rem;
+      padding: 1.2rem 0.8rem;
+      text-align: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .servicio-card:hover {
+      border-color: #ccc;
+      background: #fefefe;
+      transform: translateY(-2px);
+    }
+    .servicio-titulo {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.4rem;
+      color: #000;
+    }
+    .servicio-desc {
+      font-size: 0.75rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(2px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-contenido {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    .modal-titulo {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      letter-spacing: -0.3px;
+    }
+    .modal-texto {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #2c2c2c;
+      margin-bottom: 1.5rem;
+    }
+    .modal-boton {
+      background: black;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: monospace;
+    }
+    .modal-boton:hover {
+      background: #333;
+    }
+    .cerrar-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.2s;
+    }
+    .cerrar-modal:hover {
+      color: black;
+    }
+
+    .impacto {
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 1.35;
+      padding: 1.2rem 0 1.2rem 1rem;
+      border-left: 3px solid #000;
+      margin: 2rem 0;
+      background: #fefaf5;
+    }
+
+    .cta {
+      text-align: center;
+      background: #f8f8f8;
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      margin: 2rem 0;
+    }
+    .cta p {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      background: black;
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.6rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-family: monospace;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: #333;
+    }
+
+    .contacto {
+      background: #f9f9fb;
+      border-radius: 1.2rem;
+      padding: 1.2rem 1.5rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .contacto-info span {
+      display: inline-block;
+      margin-right: 1rem;
+    }
+    .nota {
+      font-size: 0.7rem;
+      color: #888;
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+    a {
+      color: black;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .servicios-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .inner {
+        padding: 1.5rem;
+      }
+      .titulo {
+        font-size: 2.2rem;
+      }
+      .servicios-grid {
+        grid-template-columns: 1fr;
+      }
+      .contacto {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .logo-watermark {
+        align-self: flex-end;
+        width: 80px;
+        height: 80px;
+        font-size: 1.8rem;
+      }
+      .modal-contenido {
+        padding: 1.5rem;
+      }
+      .modal-titulo {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="inner">
+    <div class="header">
+      <div class="titulo">JUÁREZ<br>3D WEB</div>
+      <div class="logo-watermark">J3W</div>
+    </div>
+    <div class="lema">Laboratorio de Innovación Digital</div>
+    <div class="separador"></div>
+
+    <section>
+      <div class="texto">
+        <p>Creemos presencia digital que funciona.<br>
+        Desarrollo web · Sistemas a la medida · Visualización 3D · Recorridos virtuales.</p>
+        <p>Tu negocio necesita estar donde te buscan.<br>
+        Una página profesional, un sistema ágil, o un recorrido 3D que muestre tu proyecto antes de existir.</p>
+        <p>También diseñamos tu tarjeta de presentación digital: sitios web elegantes y veloces, ideales para profesionales, emprendedores y pequeños negocios que quieren una primera impresión impecable. Tu currículum online o la vitrina digital de tu marca, siempre listos para causar impacto.</p>
+        <p>Todo eso es parte de un mismo objetivo:<br>
+        hacer que tu inversión digital trabaje para ti todos los días.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="servicios-grid" id="servicios-grid">
+        <div class="servicio-card" data-servicio="web">
+          <div class="servicio-titulo">Desarrollo web</div>
+          <div class="servicio-desc">Sitios profesionales, tiendas online, blogs y vitrinas digitales.</div>
+        </div>
+        <div class="servicio-card" data-servicio="sistemas">
+          <div class="servicio-titulo">Sistemas a la medida</div>
+          <div class="servicio-desc">Gestión de citas, inventarios, CRMs y automatización.</div>
+        </div>
+        <div class="servicio-card" data-servicio="3d">
+          <div class="servicio-titulo">Visualización 3D</div>
+          <div class="servicio-desc">Renders arquitectónicos, producto y espacios inmersivos.</div>
+        </div>
+        <div class="servicio-card" data-servicio="recorridos">
+          <div class="servicio-titulo">Recorridos virtuales</div>
+          <div class="servicio-desc">Experiencias interactivas para propiedades y proyectos.</div>
+        </div>
+        <div class="servicio-card" data-servicio="optimizacion">
+          <div class="servicio-titulo">Optimización y velocidad</div>
+          <div class="servicio-desc">SEO técnico, carga rápida, mejora de rendimiento web.</div>
+        </div>
+        <div class="servicio-card" data-servicio="soporte">
+          <div class="servicio-titulo">Mantenimiento y soporte</div>
+          <div class="servicio-desc">Actualizaciones, respaldos, seguridad y tranquilidad continua.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="impacto">
+      La presencia digital no es un gasto.<br>
+      Es la herramienta más rentable que puedes tener.
+    </div>
+    <p class="texto" style="margin-top: -0.5rem;">
+      No importa si vendes productos, servicios o propiedades:<br>
+      si no estás en digital, no existes para quien te busca.
+    </p>
+
+    <div class="cta">
+      <p>¿Listo para invertir en lo que sí funciona?</p>
+      <a href="#" class="btn">Hablemos →</a>
+    </div>
+
+    <div class="contacto">
+      <div class="contacto-info">
+        <span>📱 771 123 4567</span>
+        <span>✉️ <a href="mailto:hola@juarez3dweb.com">hola@juarez3dweb.com</a></span>
+        <span>🌐 www.juarez3dweb.com</span>
+      </div>
+      <a href="#" class="btn" style="background: #fff; color: #000; border: 1px solid #ccc;">Cotizar proyecto</a>
+    </div>
+    <div class="nota">
+      Innovación digital · Resultados reales
+    </div>
+  </div>
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar-modal">&times;</span>
+    <div class="modal-titulo" id="modal-titulo"></div>
+    <div class="modal-texto" id="modal-texto"></div>
+    <button class="modal-boton" id="modal-boton">Me interesa, quiero más información →</button>
+  </div>
+</div>
+
+<script>
+  const serviciosInfo = {
+    web: {
+      titulo: "Desarrollo web",
+      texto: "Tu negocio merece una página profesional que inspire confianza desde el primer vistazo. Creamos sitios web rápidos, bonitos y fáciles de administrar. Desde una tarjeta de presentación digital hasta una tienda online completa. Te acompaño para que tu marca tenga una vitrina elegante en internet, disponible 24/7 para tus clientes. ¿Listo para dar el primer paso?",
+    },
+    sistemas: {
+      titulo: "Sistemas a la medida",
+      texto: "¿Pierdes tiempo con hojas de cálculo o agendas en papel? Diseño sistemas hechos especialmente para tu negocio: gestión de citas, control de inventarios, CRM para clientes o automatización de tareas repetitivas. Todo simple, intuitivo y a tu medida. Ahorra horas y reduce errores. Cuéntame qué necesitas ordenar.",
+    },
+    "3d": {
+      titulo: "Visualización 3D",
+      texto: "Imagina mostrar tu proyecto arquitectónico o producto antes de construirlo. Con renders 3D realistas, tus clientes entenderán cada detalle: luz, texturas, espacios. Ideal para inmobiliarias, constructoras, diseñadores o emprendedores. Vende más fácil y sorprende con imágenes que parecen fotografías. ¿Empezamos con tu idea?",
+    },
+    recorridos: {
+      titulo: "Recorridos virtuales",
+      texto: "Lleva a tus clientes a caminar por una propiedad o espacio sin que se muevan de su casa. Los recorridos virtuales interactivos son la herramienta perfecta para vender departamentos, oficinas, locales comerciales o experiencias. Aumenta la confianza y acorta los tiempos de decisión. ¿Te gustaría que tu proyecto se recorra con un clic?",
+    },
+    optimizacion: {
+      titulo: "Optimización y velocidad",
+      texto: "¿Tu página web tarda en cargar? Eso espanta clientes. Mejoro el rendimiento técnico de tu sitio: imágenes optimizadas, código limpio, tiempos de respuesta rápidos y SEO técnico para que aparezcas en Google. Tu web será ágil, eficiente y dará una experiencia placentera. ¿Le damos una revisión sin compromiso?",
+    },
+    soporte: {
+      titulo: "Mantenimiento y soporte",
+      texto: "La tranquilidad no tiene precio. Con mi servicio de mantenimiento, me encargo de las actualizaciones, copias de seguridad, seguridad contra ataques y resuelvo cualquier problema técnico. Tú dedícate a tu negocio, yo cuido tu inversión digital. Contratas la calma de saber que tu sitio está en buenas manos. ¿Hablamos de un plan a tu medida?",
+    },
+  };
+
+  const modal = document.getElementById("modal");
+  const modalTitulo = document.getElementById("modal-titulo");
+  const modalTexto = document.getElementById("modal-texto");
+  const cerrarModal = document.querySelector(".cerrar-modal");
+  const modalBoton = document.getElementById("modal-boton");
+
+  const cards = document.querySelectorAll(".servicio-card");
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const servicioKey = card.getAttribute("data-servicio");
+      if (serviciosInfo[servicioKey]) {
+        modalTitulo.innerText = serviciosInfo[servicioKey].titulo;
+        modalTexto.innerText = serviciosInfo[servicioKey].texto;
+        modal.style.display = "flex";
+      }
+    });
+  });
+
+  cerrarModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+  modalBoton.addEventListener("click", () => {
+    modal.style.display = "none";
+    document.querySelector(".contacto").scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+</body>
+</html>
